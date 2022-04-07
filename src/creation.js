@@ -30,23 +30,23 @@ const stream$ = new Observable(obser => {
 })
 
 //підписуємось на об'єкт stream$ та виводимо його значеня в консоль
-stream$.subscribe(
-    value => console.log('value: ', value),
-    err => console.log(err),
-    () => console.log('test option complete')
-)
+// stream$.subscribe(
+//     value => console.log('value: ', value),
+//     err => console.log(err),
+//     () => console.log('test option complete')
+// )
 
 
 //також можна передати у метод subscribe об'єкт
 //у об'єкта є 3 ключа
-// stream$.subscribe({
-//     next(val) {
-//      console.log(val)
-//     },
-//     error(err){
-//         console.log(err)
-//     },
-//     complete(){
-//         console.log('something here complete))')
-//     }
-// })
+stream$.subscribe({
+    next(val) {
+     console.log(val)
+    },
+    error(err){
+        console.log(err)
+    },
+    complete(){
+        console.log('something here complete))')
+    }
+})
