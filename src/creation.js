@@ -1,5 +1,6 @@
-import {of, from, observable, Observable} from "rxjs";
+import {of, from, observable, Observable, fromEvent} from "rxjs";
 import * as stream from "stream";
+import {map} from "rxjs/operators";
 
 //of це метод в який ми передаємо данні 12457
 // const stream$ = of(1,21,44,55555,7)
@@ -39,14 +40,41 @@ const stream$ = new Observable(obser => {
 
 //також можна передати у метод subscribe об'єкт
 //у об'єкта є 3 ключа
-stream$.subscribe({
-    next(val) {
-     console.log(val)
-    },
-    error(err){
-        console.log(err)
-    },
-    complete(){
-        console.log('something here complete))')
-    }
+// stream$.subscribe({
+//     next(val) {
+//      console.log(val)
+//     },
+//     error(err){
+//         console.log(err)
+//     },
+//     complete(){
+//         console.log('something here complete))')
+//     }
+// })
+
+
+//============ method fromevent створює стрім з подій(собитие)
+fromEvent(document.querySelector("canvas"), "mousemove")
+  // додаємо метод pipe
+  .pipe(
+    // передаємо метод map щоб подія eventoo мала читабельний формат
+    // map — это оператор, который преобразует данные, применяя функцию
+    map(e=>({
+      o: e.offsetX,
+      g: e.offsetY,
+      // завдяки контексту ми вже можемо рисувати
+      ctx: e.target.getContext('2d')
+
+    }))
+  )
+  .subscribe(eventoo =>{
+      // console.log(eventoo)
+    eventoo.ctx.fillRect(eventoo.o, eventoo.g, 3,3)
+    eventoo.ctx.fillStyle = "#FF0000";
+  })
+
+const btnclaer$ = fromEvent(document.getElementById('clear'),'click')
+btnclaer$.subscribe(()=>{
+  const pic = document.querySelector("canvas")
+  pic.getContext('2d').clearRect(0,0,pic.width,pic.height)
 })
