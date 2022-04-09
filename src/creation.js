@@ -1,4 +1,4 @@
-import {of, from, observable, Observable, fromEvent, interval} from "rxjs";
+import {of, from, observable, Observable, fromEvent, interval, timer, range} from "rxjs";
 import * as stream from "stream";
 import {map} from "rxjs/operators";
 
@@ -80,11 +80,17 @@ const stream$ = new Observable(obser => {
 // })
 
 
-// ====== method interval
-const somesubscription = interval(500).subscribe(somevalue =>{
-  console.log(somevalue)
-})
+// // ====== method interval
+// const somesubscription = interval(500).subscribe(somevalue =>{
+//   console.log(somevalue)
+// })
+//
+// setTimeout(()=>{
+//   somesubscription.unsubscribe()
+// }, 3000)
 
-setTimeout(()=>{
-  somesubscription.unsubscribe()
-}, 3000)
+
+// timer(3000).subscribe(somevalue => console.log("Greating Human"))
+
+//створюємо стріми в яких деякий набір чисел
+range(42,10).subscribe(v=>console.log(v))
