@@ -1,4 +1,4 @@
-import {of, from, observable, Observable, fromEvent} from "rxjs";
+import {of, from, observable, Observable, fromEvent, interval} from "rxjs";
 import * as stream from "stream";
 import {map} from "rxjs/operators";
 
@@ -53,28 +53,38 @@ const stream$ = new Observable(obser => {
 // })
 
 
-//============ method fromevent створює стрім з подій(собитие)
-fromEvent(document.querySelector("canvas"), "mousemove")
-  // додаємо метод pipe
-  .pipe(
-    // передаємо метод map щоб подія eventoo мала читабельний формат
-    // map — это оператор, который преобразует данные, применяя функцию
-    map(e=>({
-      o: e.offsetX,
-      g: e.offsetY,
-      // завдяки контексту ми вже можемо рисувати
-      ctx: e.target.getContext('2d')
+// //============ method fromevent створює стрім з подій(собитие)
+// fromEvent(document.querySelector("canvas"), "mousemove")
+//   // додаємо метод pipe
+//   .pipe(
+//     // передаємо метод map щоб подія eventoo мала читабельний формат
+//     // map — это оператор, который преобразует данные, применяя функцию
+//     map(e=>({
+//       o: e.offsetX,
+//       g: e.offsetY,
+//       // завдяки контексту ми вже можемо рисувати
+//       ctx: e.target.getContext('2d')
+//
+//     }))
+//   )
+//   .subscribe(eventoo =>{
+//       // console.log(eventoo)
+//     eventoo.ctx.fillRect(eventoo.o, eventoo.g, 3,3)
+//     eventoo.ctx.fillStyle = "#FF0000";
+//   })
+//
+// const btnclaer$ = fromEvent(document.getElementById('clear'),'click')
+// btnclaer$.subscribe(()=>{
+//   const pic = document.querySelector("canvas")
+//   pic.getContext('2d').clearRect(0,0,pic.width,pic.height)
+// })
 
-    }))
-  )
-  .subscribe(eventoo =>{
-      // console.log(eventoo)
-    eventoo.ctx.fillRect(eventoo.o, eventoo.g, 3,3)
-    eventoo.ctx.fillStyle = "#FF0000";
-  })
 
-const btnclaer$ = fromEvent(document.getElementById('clear'),'click')
-btnclaer$.subscribe(()=>{
-  const pic = document.querySelector("canvas")
-  pic.getContext('2d').clearRect(0,0,pic.width,pic.height)
+// ====== method interval
+const somesubscription = interval(500).subscribe(somevalue =>{
+  console.log(somevalue)
 })
+
+setTimeout(()=>{
+  somesubscription.unsubscribe()
+}, 3000)
